@@ -2,9 +2,11 @@ const questionElement = document.getElementById("question");
 const optionButtons = document.querySelectorAll(".option");
 const answerElement = document.getElementById("answer");
 const nextButton = document.getElementById("nextBtn");
+const showAnswerBtn = document.getElementById("showAnswerBtn");
 
 let questions = [];
 let currentIndex = 0;
+let answerVisible = false;
 
 // Load questions from JSON
 fetch("quiz_questions_500_plus.json")
@@ -34,8 +36,37 @@ function showQuestion() {
         button.textContent = currentQuestion.options[index];
     });
 
-    answerElement.textContent = "Correct Answer: " + currentQuestion.correct_answer;
+    answerVisible = false;
+
+    answerElement.textContent = "Correct Answer: ********";
+
+    showAnswerBtn.textContent = "Show Answer";
 }
+
+showAnswerBtn.addEventListener("click", () => {
+
+    const currentQuestion = questions[currentIndex];
+
+    if (!answerVisible) {
+
+        answerElement.textContent =
+            "Correct Answer: " + currentQuestion.correct_answer;
+
+        showAnswerBtn.textContent = "Hide Answer";
+
+        answerVisible = true;
+
+    } else {
+
+        answerElement.textContent =
+            "Correct Answer: ********";
+
+        showAnswerBtn.textContent = "Show Answer";
+
+        answerVisible = false;
+    }
+
+});
 
 // Next button
 nextButton.addEventListener("click", () => {
